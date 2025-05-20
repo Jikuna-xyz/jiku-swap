@@ -1,0 +1,12 @@
+{
+  "crons": [
+    {
+      "path": "/api/jxp/events/fetch-swap-events",
+      "schedule": "0 0 * * *"
+    },
+    {
+      "path": "/api/jxp/webhook",
+      "schedule": "0 12 * * *"
+    }
+  ]
+} 

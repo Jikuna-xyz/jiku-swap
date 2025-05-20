@@ -1,0 +1,12 @@
+{
+  "version": "1",
+  "frame": {
+    "name": "Jikuna",
+    "homeUrl": "https://jikuna.vercel.app",
+    "description": "A decentralized DeFi platform for the Web3 ecosystem",
+    "image": "https://jikuna.vercel.app/images/icon.png",
+    "splashImageUrl": "https://jikuna.vercel.app/images/splash.png",
+    "splashBackgroundColor": "#ffffff",
+    "webhookUrl": "https://jikuna.vercel.app/api/farcaster-webhook"
+  }
+}
