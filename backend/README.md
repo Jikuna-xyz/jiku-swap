@@ -1,24 +1,24 @@
-# Backend JXP Service untuk Jikuna Swap
+# Backend JXP Service for Jikuna Swap
 
-Backend service untuk mengelola perhitungan dan pembaruan JXP (Jikuna Xtra Points) bagi DEX Jikuna di Monad Testnet.
+Backend service for managing calculation and updates of JXP (Jikuna Xtra Points) for Jikuna DEX on Monad Testnet.
 
-## Fitur Utama
+## Key Features
 
-- Event listener untuk memantau event swap dari kontrak JikunaSwap
-- Perhitungan JXP berdasarkan volume swap (1 JXP per 10 MON)
-- Batch updater untuk mengirim update JXP ke kontrak JikunaXtraPointsV2
-- API untuk monitoring dan operasi manual
-- Otomatisasi dengan Vercel Cron Jobs
+- Event listener to monitor swap events from JikunaSwap contract
+- JXP calculation based on swap volume (1 JXP per 10 MON)
+- Batch updater to send JXP updates to the JikunaXtraPointsV2 contract
+- API for monitoring and manual operations
+- Automation with Vercel Cron Jobs
 
-## Teknologi yang Digunakan
+## Technologies Used
 
 - Next.js API Routes
-- MongoDB untuk database
-- viem untuk interaksi blockchain
-- TypeScript
-- Vercel Cron
+- MongoDB for database storage
+- viem for blockchain interactions
+- TypeScript for type-safe development
+- Vercel Cron for scheduled tasks
 
-## Setup Lokal
+## Local Setup
 
 1. Install dependencies:
 
@@ -26,13 +26,13 @@ Backend service untuk mengelola perhitungan dan pembaruan JXP (Jikuna Xtra Point
 npm install
 ```
 
-2. Buat file `.env.local` dengan contoh dari `.env.example`:
+2. Create a `.env.local` file from the `.env.example` template:
 
 ```bash
 cp .env.example .env.local
 ```
 
-3. Edit `.env.local` dan isi dengan nilai yang sesuai:
+3. Edit `.env.local` and fill with appropriate values:
 
 ```
 # Blockchain
@@ -46,38 +46,38 @@ JIKUNA_SWAP_ETH_ADDRESS=0x0f36AF6f7EA2b7708D756991E1f13ec0Add23998
 MONGODB_URI=your_mongodb_connection_string
 
 # Service Config
-UPDATE_INTERVAL_HOURS=6
-FETCH_EVENTS_INTERVAL_HOURS=1
+UPDATE_INTERVAL_HOURS=6       # How often JXP is sent to blockchain
+FETCH_EVENTS_INTERVAL_HOURS=1 # How often swap events are fetched
 
 # Security
 ADMIN_API_KEY=your_secure_api_key_for_admin_endpoints
 CRON_SECRET=your_vercel_cron_secret
 ```
 
-4. Jalankan server development:
+4. Run the development server:
 
 ```bash
 npm run dev
 ```
 
-## Struktur API
+## API Structure
 
-### API Publik
+### Public API
 
-- `GET /api/jxp/status` - Mendapatkan status sistem dan statistik
+- `GET /api/jxp/status` - Get system status and statistics (no authentication required)
 
-### API Admin (Memerlukan API key)
+### Admin API (Requires API key)
 
-- `POST /api/jxp/admin/manual-update` - Memicu pembaruan JXP ke blockchain secara manual
-- `POST /api/jxp/admin/add-jxp` - Menambahkan JXP ke alamat tertentu
+- `POST /api/jxp/admin/manual-update` - Trigger JXP updates to blockchain manually
+- `POST /api/jxp/admin/add-jxp` - Add JXP to a specific address
 
-Contoh manual-update:
+Example of manual update:
 ```bash
 curl -X POST https://your-backend.vercel.app/api/jxp/admin/manual-update \
   -H "x-api-key: your_admin_api_key"
 ```
 
-Contoh add-jxp:
+Example of adding JXP:
 ```bash
 curl -X POST https://your-backend.vercel.app/api/jxp/admin/add-jxp \
   -H "x-api-key: your_admin_api_key" \
@@ -85,34 +85,36 @@ curl -X POST https://your-backend.vercel.app/api/jxp/admin/add-jxp \
   -d '{"address":"0x123...","amount":100}'
 ```
 
-### API Cron (Dipanggil oleh Vercel Cron)
+### Cron API (Called by Vercel Cron)
 
-- `POST /api/jxp/events/fetch-swap-events` - Mengambil event swap baru (tiap jam)
-- `POST /api/jxp/webhook` - Memproses JXP dan mengirim ke blockchain (tiap 6 jam)
+- `POST /api/jxp/events/fetch-swap-events` - Fetch new swap events (runs hourly)
+- `POST /api/jxp/webhook` - Process JXP and send to blockchain (runs every 6 hours)
 
-## Deploy ke Vercel
+## Deployment to Vercel
 
-1. Hubungkan repository ke Vercel
-2. Set direktori root ke `/backend`
-3. Tambahkan semua environment variable
-4. Enable Vercel Cron Jobs
+1. Connect your repository to Vercel
+2. Set the root directory to `/backend`
+3. Add all environment variables in the Vercel project settings
+4. Enable Vercel Cron Jobs in the project settings
 
-## Monitoring dan Debugging
+## Monitoring and Debugging
 
-Untuk memantau sistem:
-- Cek endpoint `/api/jxp/status` untuk melihat status keseluruhan sistem
-- Pantau logs di Vercel untuk setiap error
-- Cek MongoDB collections untuk melihat data yang disimpan
+To monitor the system:
+- Check the `/api/jxp/status` endpoint to view overall system status
+- Monitor logs in Vercel dashboard for any errors
+- Inspect MongoDB collections to view stored data and transaction history
 
-## Keamanan
+## Security
 
-- Admin API dilindungi dengan API key
-- Cron endpoints dilindungi dengan secret khusus
-- Private key admin wallet disimpan secara aman di environment variables
+- Admin API protected with API key authentication
+- Cron endpoints protected with dedicated secret
+- Admin wallet private key securely stored in environment variables
+- All sensitive data is never exposed in client-side code
 
-## Pengembangan Lanjutan
+## Future Enhancements
 
-- Tambahkan fitur caching untuk meningkatkan performa
-- Implementasikan rate limiting untuk API
-- Tambahkan lebih banyak validasi untuk data input
-- Tingkatkan estimasi volume MON dengan oracle harga 
+- Add caching features to improve performance
+- Implement rate limiting for APIs to prevent abuse
+- Add more comprehensive input data validation
+- Improve MON volume estimation with price oracles
+- Add more detailed analytics and reporting features 
